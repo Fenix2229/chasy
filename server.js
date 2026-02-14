@@ -10,6 +10,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { db, initDatabase } from './config/database.js';
+import { initDb } from './scripts/init-db.js';
 import indexRoutes from './routes/index.js';
 import catalogRoutes from './routes/catalog.js';
 import cartRoutes from './routes/cart.js';
@@ -84,15 +85,31 @@ app.use((err, req, res, next) => {
 
 // Запуск сервера с инициализацией БД
 function startServer() {
-    initDatabase();
-    
-    app.listen(PORT, () => {
-        console.log('═══════════════════════════════════════════════════');
-        console.log('  🕐 Интернет-магазин часов КОМАНДИРСКИЕ');
-        console.log('  📍 Домен: komandirskie.su');
-        console.log(`  🚀 Сервер запущен: http://${HOST}:${PORT}`);
-        console.log('═══════════════════════════════════════════════════');
-    });
+    try {
+        // Проверяем, есть ли товары в БД
+        db.read();
+        const productCount = (db.data?.products || []).length;
+        
+        if (productCount === 0) {
+            console.log('⚠️  БД пуста, инициализируем товары...');
+            initDb();
+        } else {
+            console.log(`✅ БД инициализирована (${productCount} товаров)`);
+        }
+        
+        initDatabase();
+        
+        app.listen(PORT, () => {
+            console.log('═══════════════════════════════════════════════════');
+            console.log('  🕐 Интернет-магазин часов КОМАНДИРСКИЕ');
+            console.log('  📍 Домен: komandirskie.su');
+            console.log(`  🚀 Сервер запущен: http://${HOST}:${PORT}`);
+            console.log('═══════════════════════════════════════════════════');
+        });
+    } catch (error) {
+        console.error('❌ Ошибка при инициализации:', error);
+        process.exit(1);
+    }
 }
 
 startServer();

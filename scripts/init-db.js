@@ -414,36 +414,49 @@ const products = [
 ];
 
 // Инициализация базы данных
-async function initDb() {
+export function initDb() {
     console.log('\n═══════════════════════════════════════════════════');
     console.log('  🕐 Инициализация базы данных магазина');
     console.log('  📍 Домен: komandirskie.su');
     console.log('═══════════════════════════════════════════════════\n');
 
-    const adapter = new FileSync(dbPath);
-    const db = new Low(adapter);
-    db.defaults({ categories: [], products: [], orders: [], syncLog: [] }).read();
+    try {
+        const adapter = new FileSync(dbPath);
+        const db = new Low(adapter);
+        
+        // Читаем файл
+        db.read();
+        
+        // Установим данные
+        db.data = {
+            categories: categories,
+            products: products,
+            orders: [],
+            syncLog: []
+        };
+        
+        // Записываем в файл
+        db.write();
 
-    // Заполняем данными
-    db.data = {
-        categories: categories,
-        products: products,
-        orders: [],
-        syncLog: []
-    };
+        console.log('📁 Добавлено категорий: ' + categories.length);
+        categories.forEach(c => console.log(`   ✅ ${c.name}`));
+        
+        console.log('\n📦 Добавлено товаров: ' + products.length);
+        products.forEach(p => console.log(`   ✅ ${p.name} (${p.article})`));
 
-    db.write();
-
-    console.log('📁 Добавлено категорий: ' + categories.length);
-    categories.forEach(c => console.log(`   ✅ ${c.name}`));
-    
-    console.log('\n📦 Добавлено товаров: ' + products.length);
-    products.forEach(p => console.log(`   ✅ ${p.name} (${p.article})`));
-
-    console.log('\n═══════════════════════════════════════════════════');
-    console.log('  ✅ База данных успешно инициализирована!');
-    console.log(`  📁 Файл: ${dbPath}`);
-    console.log('═══════════════════════════════════════════════════\n');
+        console.log('\n═══════════════════════════════════════════════════');
+        console.log('  ✅ База данных успешно инициализирована!');
+        console.log(`  📁 Файл: ${dbPath}`);
+        console.log('═══════════════════════════════════════════════════\n');
+        
+        return true;
+    } catch (error) {
+        console.error('❌ Ошибка инициализации БД:', error.message);
+        return false;
+    }
 }
 
-initDb().catch(console.error);
+// Запуск инициализации если скрипт вызван напрямую
+if (import.meta.url === `file://${process.argv[1]}`) {
+    initDb();
+}
