@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280">
+  <defs>
+    <linearGradient id="silver9" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5f5f5"/>
+      <stop offset="50%" style="stop-color:#c8c8c8"/>
+      <stop offset="100%" style="stop-color:#a0a0a0"/>
+    </linearGradient>
+    <linearGradient id="champagne9" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f7e7ce"/>
+      <stop offset="100%" style="stop-color:#dcc9a6"/>
+    </linearGradient>
+  </defs>
+  <!-- Ремешок верх (крокодил коричневый) -->
+  <rect x="70" y="0" width="60" height="55" rx="6" fill="#5c3d2e"/>
+  <rect x="75" y="5" width="50" height="45" rx="4" fill="#6b4830"/>
+  <g fill="none" stroke="#4a3423" stroke-width="0.8">
+    <path d="M78,10 Q100,15 122,10"/>
+    <path d="M78,20 Q100,25 122,20"/>
+    <path d="M78,30 Q100,35 122,30"/>
+    <path d="M78,40 Q100,45 122,40"/>
+  </g>
+  <!-- Корпус прямоугольный скруглённый -->
+  <rect x="45" y="80" width="110" height="120" rx="25" fill="url(#silver9)" stroke="#999" stroke-width="2"/>
+  <rect x="52" y="87" width="96" height="106" rx="20" fill="url(#champagne9)" stroke="#ddd"/>
+  <!-- Римские цифры -->
+  <g fill="#5c4827" font-family="Times New Roman" font-size="14" text-anchor="middle">
+    <text x="100" y="108">XII</text>
+    <text x="135" y="145">III</text>
+    <text x="100" y="182">VI</text>
+    <text x="65" y="145">IX</text>
+  </g>
+  <!-- Деления -->
+  <g stroke="#8b7355" stroke-width="1">
+    <line x1="100" y1="112" x2="100" y2="118"/>
+    <line x1="140" y1="140" x2="134" y2="140"/>
+    <line x1="100" y1="168" x2="100" y2="162"/>
+    <line x1="60" y1="140" x2="66" y2="140"/>
+  </g>
+  <!-- Стрелки золотые -->
+  <polygon points="100,112 97,135 100,142 103,135" fill="#8b7355"/>
+  <polygon points="130,140 100,137 100,143" fill="#8b7355"/>
+  <circle cx="100" cy="140" r="4" fill="#5c4827"/>
+  <!-- Логотип -->
+  <text x="100" y="125" fill="#5c4827" font-family="Arial" font-size="5" text-anchor="middle">ВОСТОК</text>
+  <text x="100" y="155" fill="#8b7355" font-family="Arial" font-size="4" text-anchor="middle">РЕТРО</text>
+  <!-- Заводная головка -->
+  <ellipse cx="157" cy="140" rx="8" ry="10" fill="url(#silver9)" stroke="#999"/>
+  <!-- Ремешок низ -->
+  <rect x="70" y="225" width="60" height="55" rx="6" fill="#5c3d2e"/>
+  <rect x="75" y="230" width="50" height="45" rx="4" fill="#6b4830"/>
+  <g fill="none" stroke="#4a3423" stroke-width="0.8">
+    <path d="M78,235 Q100,240 122,235"/>
+    <path d="M78,245 Q100,250 122,245"/>
+    <path d="M78,255 Q100,260 122,255"/>
+    <path d="M78,265 Q100,270 122,265"/>
+  </g>
+</svg>

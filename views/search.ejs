@@ -1,0 +1,209 @@
+<%- include('partials/header') %>
+
+<!-- Страница результатов поиска -->
+<main class="page-content">
+    <!-- Page Hero -->
+    <section class="page-hero search-hero">
+        <div class="container">
+            <div class="page-hero-content">
+                <h1 class="page-hero-title">Результаты поиска</h1>
+                <p class="page-hero-subtitle">
+                    <% if (query) { %>
+                        По запросу «<strong><%= query %></strong>» 
+                        <%= products.length === 0 ? 'ничего не найдено' : 
+                            products.length === 1 ? 'найден 1 товар' :
+                            products.length < 5 ? `найдено ${products.length} товара` :
+                            `найдено ${products.length} товаров` %>
+                    <% } else { %>
+                        Введите поисковый запрос
+                    <% } %>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма поиска -->
+    <section class="search-section">
+        <div class="container">
+            <form action="/search" method="GET" class="search-page-form">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input 
+                        type="text" 
+                        name="q" 
+                        value="<%= query %>" 
+                        placeholder="Введите название или артикул часов..." 
+                        class="search-page-input"
+                        autofocus
+                        autocomplete="off"
+                    >
+                    <% if (query) { %>
+                        <a href="/search" class="search-clear" aria-label="Очистить">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </a>
+                    <% } %>
+                    <button type="submit" class="search-page-btn">
+                        Найти
+                    </button>
+                </div>
+                <div class="search-hints">
+                    <span>Популярные запросы:</span>
+                    <a href="/search?q=Командирские">Командирские</a>
+                    <a href="/search?q=Амфибия">Амфибия</a>
+                    <a href="/search?q=Восток">Восток</a>
+                    <a href="/search?q=автоподзавод">Автоподзавод</a>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Результаты -->
+    <section class="search-results">
+        <div class="container">
+            <% if (products.length > 0) { %>
+                <div class="products-grid">
+                    <% products.forEach(function(product) { %>
+                        <article class="product-card" data-animate="fade-up">
+                            <% if (product.old_price) { %>
+                                <div class="product-badge badge-sale">Скидка</div>
+                            <% } %>
+                            <% if (product.is_new) { %>
+                                <div class="product-badge badge-new">Новинка</div>
+                            <% } %>
+                            
+                            <a href="/catalog/product/<%= product.slug %>" class="product-image">
+                                <img src="<%= product.image || '/images/no-image.png' %>" 
+                                     alt="<%= product.name %>" 
+                                     loading="lazy">
+                            </a>
+                            
+                            <div class="product-info">
+                                <% if (product.category_name) { %>
+                                    <a href="/catalog/category/<%= product.category_slug %>" class="product-category">
+                                        <%= product.category_name %>
+                                    </a>
+                                <% } %>
+                                
+                                <h3 class="product-title">
+                                    <a href="/catalog/product/<%= product.slug %>"><%= product.name %></a>
+                                </h3>
+                                
+                                <div class="product-price-block">
+                                    <span class="product-price"><%= product.price.toLocaleString('ru-RU') %> ₽</span>
+                                    <% if (product.old_price) { %>
+                                        <span class="product-old-price"><%= product.old_price.toLocaleString('ru-RU') %> ₽</span>
+                                    <% } %>
+                                </div>
+                                
+                                <div class="product-actions">
+                                    <% if (product.stock > 0) { %>
+                                        <button class="btn btn-primary btn-add-cart" onclick="addToCart(<%= product.id %>, 1, this)">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="9" cy="21" r="1"/>
+                                                <circle cx="20" cy="21" r="1"/>
+                                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                                            </svg>
+                                            <span>В корзину</span>
+                                        </button>
+                                    <% } else { %>
+                                        <button class="btn btn-secondary" disabled>
+                                            Нет в наличии
+                                        </button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </article>
+                    <% }); %>
+                </div>
+            <% } else if (query && query.length >= 2) { %>
+                <!-- Ничего не найдено -->
+                <div class="search-empty">
+                    <div class="search-empty-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                            <path d="M8 8l6 6M14 8l-6 6"/>
+                        </svg>
+                    </div>
+                    <h2>По вашему запросу ничего не найдено</h2>
+                    <p>Попробуйте изменить условия поиска:</p>
+                    <ul class="search-tips">
+                        <li>Проверьте правильность написания запроса</li>
+                        <li>Используйте более общие слова</li>
+                        <li>Попробуйте синонимы</li>
+                    </ul>
+                    <div class="search-empty-actions">
+                        <a href="/catalog" class="btn btn-primary">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"/>
+                                <rect x="14" y="3" width="7" height="7"/>
+                                <rect x="14" y="14" width="7" height="7"/>
+                                <rect x="3" y="14" width="7" height="7"/>
+                            </svg>
+                            Смотреть каталог
+                        </a>
+                        <a href="/" class="btn btn-secondary">На главную</a>
+                    </div>
+                </div>
+            <% } else if (query && query.length < 2) { %>
+                <!-- Слишком короткий запрос -->
+                <div class="search-empty">
+                    <div class="search-empty-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                    </div>
+                    <h2>Введите минимум 2 символа</h2>
+                    <p>Для поиска необходимо ввести минимум 2 символа</p>
+                </div>
+            <% } else { %>
+                <!-- Начальное состояние -->
+                <div class="search-empty">
+                    <div class="search-empty-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </div>
+                    <h2>Начните поиск</h2>
+                    <p>Введите название часов, артикул или ключевое слово</p>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Рекомендации -->
+    <% if (products.length === 0) { %>
+    <section class="search-recommendations">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Рекомендуем посмотреть</h2>
+            </div>
+            <div class="category-cards">
+                <% categories.slice(0, 4).forEach(function(cat) { %>
+                    <a href="/catalog/category/<%= cat.slug %>" class="category-card" data-animate="fade-up">
+                        <div class="category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <h3><%= cat.name %></h3>
+                        <span class="category-count"><%= cat.productCount || 0 %> моделей</span>
+                    </a>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+    <% } %>
+</main>
+
+<%- include('partials/footer') %>

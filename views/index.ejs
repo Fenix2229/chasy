@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Интернет-магазин часов Командирские и Амфибия. Легендарные российские часы с доставкой по России.">
+    <meta name="keywords" content="командирские, амфибия, восток, часы, российские часы, механические часы">
+    
+    <title><%= typeof title !== 'undefined' ? title + ' — ' : '' %><%= typeof siteName !== 'undefined' ? siteName : 'Командирские' %></title>
+    
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/pages.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <main class="main">
+        <!-- Слайдер баннеров -->
+        <section class="hero-slider">
+            <div class="slider" id="hero-slider">
+                <div class="slider-track">
+                    <!-- Слайд 1 -->
+                    <div class="slide slide-1 active">
+                        <div class="container">
+                            <div class="slide-content">
+                                <span class="slide-label">Новая коллекция 2026</span>
+                                <h1 class="slide-title">Командирские</h1>
+                                <p class="slide-text">Легендарные российские механические часы. Водозащита до 200 метров, автоподзавод, 2 года гарантии.</p>
+                                <a href="/catalog/category/komandirskie" class="btn btn-secondary btn-lg">Смотреть коллекцию</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Слайд 2 -->
+                    <div class="slide slide-2">
+                        <div class="container">
+                            <div class="slide-content">
+                                <span class="slide-label">Профессиональные</span>
+                                <h1 class="slide-title">Амфибия</h1>
+                                <p class="slide-text">Водолазные часы с водозащитой 200м. Идеальны для дайвинга и активного образа жизни.</p>
+                                <a href="/catalog/category/amfibiya" class="btn btn-secondary btn-lg">Выбрать часы</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Слайд 3 -->
+                    <div class="slide slide-3">
+                        <div class="container">
+                            <div class="slide-content">
+                                <span class="slide-label">Ограниченная серия</span>
+                                <h1 class="slide-title">Ретро коллекция</h1>
+                                <p class="slide-text">Часы в стиле советской эпохи. Репродукции легендарных моделей с современным механизмом.</p>
+                                <a href="/catalog/category/retro" class="btn btn-secondary btn-lg">Оценить стиль</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Навигация слайдера -->
+                <div class="slider-nav">
+                    <button class="slider-prev" aria-label="Предыдущий слайд">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button class="slider-next" aria-label="Следующий слайд">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Точки слайдера -->
+                <div class="slider-dots">
+                    <button class="slider-dot active" data-slide="0"></button>
+                    <button class="slider-dot" data-slide="1"></button>
+                    <button class="slider-dot" data-slide="2"></button>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-products section">
+            <div class="container">
+                <h2 class="section-title">Популярные модели</h2>
+                <div class="products-grid">
+                    <% if (typeof featuredProducts !== 'undefined' && featuredProducts.length > 0) { %>
+                        <% featuredProducts.forEach(function(product) { %>
+                            <div class="product-card" data-product-id="<%= product.id %>">
+                                <a href="/catalog/product/<%= product.slug %>" class="product-image">
+                                    <img src="<%= product.image || '/images/no-image.svg' %>" alt="<%= product.name %>" onerror="this.src='/images/no-image.svg'">
+                                    <% if (product.old_price) { %>
+                                        <span class="product-badge badge-sale">-<%= Math.round((1 - product.price/product.old_price) * 100) %>%</span>
+                                    <% } %>
+                                    <div class="product-overlay">
+                                        <a href="/catalog/product/<%= product.slug %>" class="overlay-btn btn-view">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            Просмотреть
+                                        </a>
+                                        <button class="overlay-btn btn-buy" onclick="event.preventDefault(); addToCart(<%= product.id %>)" <%= product.stock <= 0 ? 'disabled' : '' %>>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="9" cy="21" r="1"></circle>
+                                                <circle cx="20" cy="21" r="1"></circle>
+                                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                            </svg>
+                                            Купить
+                                        </button>
+                                    </div>
+                                </a>
+                                <div class="product-info">
+                                    <div class="product-category"><%= product.category_name || 'Часы' %></div>
+                                    <h3 class="product-title">
+                                        <a href="/catalog/product/<%= product.slug %>"><%= product.name %></a>
+                                    </h3>
+                                    <div class="product-price">
+                                        <span class="price-current"><%= product.price.toLocaleString('ru-RU') %> ₽</span>
+                                        <% if (product.old_price) { %>
+                                            <span class="price-old"><%= product.old_price.toLocaleString('ru-RU') %> ₽</span>
+                                        <% } %>
+                                    </div>
+                                    <div class="product-stock <%= product.stock > 0 ? 'in-stock' : 'out-of-stock' %>">
+                                        <span class="stock-indicator"></span>
+                                        <%= product.stock > 0 ? 'В наличии (' + product.stock + ' шт.)' : 'Нет в наличии' %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <p class="text-center text-muted">Товары не найдены</p>
+                    <% } %>
+                </div>
+                <div class="section-action">
+                    <a href="/catalog" class="btn btn-outline">Смотреть все часы</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Новинки -->
+        <section class="new-products section section-light">
+            <div class="container">
+                <h2 class="section-title">Новинки</h2>
+                <div class="products-grid">
+                    <% if (typeof newProducts !== 'undefined' && newProducts.length > 0) { %>
+                        <% newProducts.forEach(function(product) { %>
+                            <div class="product-card" data-product-id="<%= product.id %>">
+                                <a href="/catalog/product/<%= product.slug %>" class="product-image">
+                                    <img src="<%= product.image || '/images/no-image.svg' %>" alt="<%= product.name %>" onerror="this.src='/images/no-image.svg'">
+                                    <span class="product-badge badge-new">Новинка</span>
+                                    <div class="product-overlay">
+                                        <a href="/catalog/product/<%= product.slug %>" class="overlay-btn btn-view">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            Просмотреть
+                                        </a>
+                                        <button class="overlay-btn btn-buy" onclick="event.preventDefault(); addToCart(<%= product.id %>)" <%= product.stock <= 0 ? 'disabled' : '' %>>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="9" cy="21" r="1"></circle>
+                                                <circle cx="20" cy="21" r="1"></circle>
+                                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                            </svg>
+                                            Купить
+                                        </button>
+                                    </div>
+                                </a>
+                                <div class="product-info">
+                                    <div class="product-category"><%= product.category_name || 'Часы' %></div>
+                                    <h3 class="product-title">
+                                        <a href="/catalog/product/<%= product.slug %>"><%= product.name %></a>
+                                    </h3>
+                                    <div class="product-price">
+                                        <span class="price-current"><%= product.price.toLocaleString('ru-RU') %> ₽</span>
+                                        <% if (product.old_price) { %>
+                                            <span class="price-old"><%= product.old_price.toLocaleString('ru-RU') %> ₽</span>
+                                        <% } %>
+                                    </div>
+                                    <div class="product-stock <%= product.stock > 0 ? 'in-stock' : 'out-of-stock' %>">
+                                        <span class="stock-indicator"></span>
+                                        <%= product.stock > 0 ? 'В наличии' : 'Нет в наличии' %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+
+        <section class="categories section section-light">
+            <div class="container">
+                <h2 class="section-title">Коллекции часов</h2>
+                <div class="categories-grid">
+                    <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
+                        <% categories.forEach(function(cat) { %>
+                            <a href="/catalog/category/<%= cat.slug %>" class="category-card">
+                                <div class="category-icon">
+                                    <svg viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="25" cy="25" r="20"/>
+                                        <line x1="25" y1="25" x2="25" y2="13" stroke-width="2" stroke-linecap="round"/>
+                                        <line x1="25" y1="25" x2="33" y2="25" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <h3 class="category-title"><%= cat.name %></h3>
+                                <span class="category-count"><%= cat.product_count || 0 %> моделей</span>
+                            </a>
+                        <% }); %>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+
+        <section class="features section">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="3" width="15" height="13"></rect>
+                                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                            </svg>
+                        </div>
+                        <h3>Бесплатная доставка</h3>
+                        <p>При заказе от 10 000 ₽</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <h3>Гарантия 2 года</h3>
+                        <p>Официальная гарантия завода</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <h3>Оригинальная продукция</h3>
+                        <p>Прямые поставки с завода</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3>Поддержка 24/7</h3>
+                        <p>Ответим на все вопросы</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+    <script src="/js/main.js"></script>
+</body>
+</html>

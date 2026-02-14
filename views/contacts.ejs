@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Контакты интернет-магазина Командирские. Телефон, email, адрес. Свяжитесь с нами для консультации.">
+    <meta name="keywords" content="контакты, командирские, телефон, адрес, связаться">
+    
+    <title><%= title %> — <%= siteName %></title>
+    
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/pages.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <main class="main">
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs">
+            <div class="container">
+                <ul class="breadcrumbs-list">
+                    <li class="breadcrumbs-item"><a href="/">Главная</a></li>
+                    <li class="breadcrumbs-item active">Контакты</li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1 class="page-title">Контакты</h1>
+                <p class="page-description">Свяжитесь с нами любым удобным способом. Мы всегда рады помочь!</p>
+            </div>
+        </section>
+
+        <!-- Contacts Section -->
+        <section class="contacts-section section">
+            <div class="container">
+                <div class="contacts-grid">
+                    <!-- Contact Info -->
+                    <div class="contacts-info">
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                </svg>
+                            </div>
+                            <div class="contact-content">
+                                <h3>Телефон</h3>
+                                <p class="contact-value"><a href="tel:+78001234567">+7 (800) 123-45-67</a></p>
+                                <p class="contact-note">Бесплатно по России</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </div>
+                            <div class="contact-content">
+                                <h3>Email</h3>
+                                <p class="contact-value"><a href="mailto:info@komandirskie.su">info@komandirskie.su</a></p>
+                                <p class="contact-note">Ответим в течение 24 часов</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                            </div>
+                            <div class="contact-content">
+                                <h3>Адрес</h3>
+                                <p class="contact-value">Россия, г. Чистополь</p>
+                                <p class="contact-note">Республика Татарстан</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <div class="contact-content">
+                                <h3>Режим работы</h3>
+                                <p class="contact-value">Пн–Пт: 9:00 – 18:00</p>
+                                <p class="contact-note">Сб–Вс: выходной</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="contacts-form-wrapper">
+                        <h2 class="form-title">Напишите нам</h2>
+                        <p class="form-subtitle">Заполните форму и мы свяжемся с вами в ближайшее время</p>
+                        
+                        <form class="contact-form" id="contact-form">
+                            <div class="form-group">
+                                <label for="name">Ваше имя *</label>
+                                <input type="text" id="name" name="name" required placeholder="Иван Иванов">
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Email *</label>
+                                    <input type="email" id="email" name="email" required placeholder="example@mail.ru">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Телефон</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Тема обращения</label>
+                                <select id="subject" name="subject">
+                                    <option value="general">Общий вопрос</option>
+                                    <option value="order">Вопрос по заказу</option>
+                                    <option value="warranty">Гарантия и сервис</option>
+                                    <option value="partnership">Сотрудничество</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Сообщение *</label>
+                                <textarea id="message" name="message" rows="5" required placeholder="Ваше сообщение..."></textarea>
+                            </div>
+                            
+                            <div class="form-group form-checkbox">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" required>
+                                    <span>Я согласен на обработку персональных данных</span>
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                                Отправить сообщение
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Links -->
+        <section class="contacts-social section section-light">
+            <div class="container">
+                <h2 class="section-title">Мы в социальных сетях</h2>
+                <div class="social-links-grid">
+                    <a href="#" class="social-card">
+                        <div class="social-card-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202-2.165-3.031-2.756-5.301-2.756-5.76 0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.678.847 2.47 2.268 4.64 2.857 4.64.22 0 .322-.102.322-.66V9.34c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.742c.373 0 .508.203.508.644v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.149-3.573 2.149-3.573.119-.254.305-.491.745-.491h1.744c.525 0 .644.27.525.644-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.745-.576.745z"/>
+                            </svg>
+                        </div>
+                        <span>ВКонтакте</span>
+                    </a>
+                    <a href="#" class="social-card">
+                        <div class="social-card-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49 1.02-.74 3.99-1.73 6.65-2.87 7.97-3.43 3.8-1.6 4.59-1.88 5.1-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.01.06.01.24 0 .38z"/>
+                            </svg>
+                        </div>
+                        <span>Telegram</span>
+                    </a>
+                    <a href="#" class="social-card">
+                        <div class="social-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </div>
+                        <span>Twitter</span>
+                    </a>
+                    <a href="#" class="social-card">
+                        <div class="social-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </div>
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/main.js"></script>
+    <script>
+        // Обработка формы обратной связи
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = this.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<span class="spinner"></span> Отправка...';
+            btn.disabled = true;
+            
+            // Имитация отправки
+            setTimeout(() => {
+                btn.innerHTML = '✓ Сообщение отправлено!';
+                btn.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    this.reset();
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('btn-success');
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

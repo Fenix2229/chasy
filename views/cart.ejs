@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Корзина покупок - <%= siteName %>">
+    <title><%= title %> | <%= siteName %></title>
+    <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/pages.css">
+</head>
+<body>
+    <%- include('partials/header', { categories, cartCount: cartItems.length }) %>
+
+    <main>
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs">
+            <div class="container">
+                <ul class="breadcrumbs-list">
+                    <li class="breadcrumbs-item"><a href="/">Главная</a></li>
+                    <li class="breadcrumbs-item active">Корзина</li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Cart Page -->
+        <section class="cart-page section">
+            <div class="container">
+                <h1 class="page-title">Корзина</h1>
+
+                <% if (cartItems && cartItems.length > 0) { %>
+                    <div class="cart-layout">
+                        <div class="cart-items">
+                            <div class="cart-table">
+                                <div class="cart-header">
+                                    <div class="cart-col col-product">Товар</div>
+                                    <div class="cart-col col-price">Цена</div>
+                                    <div class="cart-col col-quantity">Количество</div>
+                                    <div class="cart-col col-subtotal">Сумма</div>
+                                    <div class="cart-col col-actions"></div>
+                                </div>
+                                
+                                <% cartItems.forEach(function(item) { %>
+                                    <div class="cart-row" data-product-id="<%= item.productId %>">
+                                        <div class="cart-col col-product">
+                                            <a href="/catalog/product/<%= item.product.slug %>" class="cart-product">
+                                                <img src="<%= item.product.image || '/images/no-image.svg' %>" alt="<%= item.product.name %>" class="cart-product-image">
+                                                <div class="cart-product-info">
+                                                    <div class="cart-product-name"><%= item.product.name %></div>
+                                                    <div class="cart-product-sku">Арт: <%= item.product.article || 'N/A' %></div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="cart-col col-price">
+                                            <span class="cart-price"><%= item.price.toLocaleString('ru-RU') %> ₽</span>
+                                            <% if (item.product.old_price) { %>
+                                                <span class="cart-price-old"><%= item.product.old_price.toLocaleString('ru-RU') %> ₽</span>
+                                            <% } %>
+                                        </div>
+                                        <div class="cart-col col-quantity">
+                                            <div class="quantity-selector">
+                                                <button class="qty-btn qty-minus" onclick="updateQuantity(<%= item.productId %>, -1)">−</button>
+                                                <input type="number" class="qty-input" value="<%= item.quantity %>" min="1" max="<%= item.product.stock %>" data-product-id="<%= item.productId %>" onchange="setQuantity(<%= item.productId %>, this.value)">
+                                                <button class="qty-btn qty-plus" onclick="updateQuantity(<%= item.productId %>, 1)">+</button>
+                                            </div>
+                                            <% if (item.product.stock <= 5) { %>
+                                                <div class="stock-warning">Осталось: <%= item.product.stock %> шт.</div>
+                                            <% } %>
+                                        </div>
+                                        <div class="cart-col col-subtotal">
+                                            <span class="cart-subtotal" data-product-id="<%= item.productId %>"><%= item.subtotal.toLocaleString('ru-RU') %> ₽</span>
+                                        </div>
+                                        <div class="cart-col col-actions">
+                                            <button class="btn-remove" onclick="removeItem(<%= item.productId %>)" title="Удалить">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            </div>
+
+                            <div class="cart-actions">
+                                <a href="/catalog" class="btn btn-outline">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                                        <polyline points="12 19 5 12 12 5"></polyline>
+                                    </svg>
+                                    Продолжить покупки
+                                </a>
+                                <button class="btn btn-outline btn-danger" onclick="clearCart()">
+                                    Очистить корзину
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="cart-summary">
+                            <div class="summary-card">
+                                <h3 class="summary-title">Итого</h3>
+                                <div class="summary-row">
+                                    <span>Товаров в корзине:</span>
+                                    <span id="items-count"><%= cartItems.reduce((sum, item) => sum + item.quantity, 0) %> шт.</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Стоимость товаров:</span>
+                                    <span id="items-total"><%= cartTotal.toLocaleString('ru-RU') %> ₽</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Доставка:</span>
+                                    <span class="delivery-note">рассчитывается</span>
+                                </div>
+                                <div class="summary-divider"></div>
+                                <div class="summary-row summary-total">
+                                    <span>Итого:</span>
+                                    <span id="cart-total-amount"><%= cartTotal.toLocaleString('ru-RU') %> ₽</span>
+                                </div>
+                                <a href="/cart/checkout" class="btn btn-primary btn-lg btn-checkout">
+                                    Оформить заказ
+                                </a>
+                                <div class="summary-payment-info">
+                                    <p>Принимаем оплату:</p>
+                                    <div class="payment-icons">
+                                        <span title="Visa">💳</span>
+                                        <span title="Mastercard">💳</span>
+                                        <span title="СБП">🏦</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="cart-empty">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <h2>Корзина пуста</h2>
+                        <p>Вы ещё не добавили ни одного товара в корзину</p>
+                        <a href="/catalog" class="btn btn-primary">Перейти в каталог</a>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/main.js"></script>
+    <script>
+        // Update quantity
+        function updateQuantity(productId, delta) {
+            const input = document.querySelector(`.qty-input[data-product-id="${productId}"]`);
+            const max = parseInt(input.max);
+            let value = parseInt(input.value) + delta;
+            
+            if (value < 1) value = 1;
+            if (value > max) {
+                showNotification(`Доступно только ${max} шт.`, 'warning');
+                value = max;
+            }
+            
+            input.value = value;
+            setQuantity(productId, value);
+        }
+        
+        // Set quantity directly
+        async function setQuantity(productId, quantity) {
+            quantity = parseInt(quantity);
+            if (quantity < 1) quantity = 1;
+            
+            const result = await updateCartItem(productId, quantity);
+            if (result && result.success) {
+                updateCartDisplay(result);
+            }
+        }
+        
+        // Remove item
+        async function removeItem(productId) {
+            if (!confirm('Удалить товар из корзины?')) return;
+            
+            const result = await removeFromCart(productId);
+            if (result && result.success) {
+                const row = document.querySelector(`.cart-row[data-product-id="${productId}"]`);
+                if (row) {
+                    row.style.opacity = '0';
+                    row.style.transform = 'translateX(-20px)';
+                    setTimeout(() => {
+                        row.remove();
+                        updateCartDisplay(result);
+                        
+                        // If cart is empty, reload page
+                        if (document.querySelectorAll('.cart-row').length === 0) {
+                            location.reload();
+                        }
+                    }, 300);
+                }
+            }
+        }
+        
+        // Clear cart
+        async function clearCart() {
+            if (!confirm('Очистить корзину?')) return;
+            
+            try {
+                const response = await fetch('/api/cart/clear', { method: 'POST' });
+                const data = await response.json();
+                if (data.success) {
+                    location.reload();
+                }
+            } catch (error) {
+                showNotification('Ошибка очистки корзины', 'error');
+            }
+        }
+        
+        // Update display after changes
+        function updateCartDisplay(data) {
+            if (data.cart) {
+                let total = 0;
+                let count = 0;
+                
+                data.cart.forEach(item => {
+                    const subtotalEl = document.querySelector(`.cart-subtotal[data-product-id="${item.productId}"]`);
+                    if (subtotalEl) {
+                        subtotalEl.textContent = item.subtotal.toLocaleString('ru-RU') + ' ₽';
+                    }
+                    total += item.subtotal;
+                    count += item.quantity;
+                });
+                
+                document.getElementById('items-total').textContent = total.toLocaleString('ru-RU') + ' ₽';
+                document.getElementById('cart-total-amount').textContent = total.toLocaleString('ru-RU') + ' ₽';
+                document.getElementById('items-count').textContent = count + ' шт.';
+            }
+        }
+    </script>
+</body>
+</html>

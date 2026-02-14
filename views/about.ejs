@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="О компании Командирские - история легендарных российских часов, производство в Чистополе с 1942 года">
+    <meta name="keywords" content="о компании, командирские, история, чистопольский часовой завод, восток">
+    
+    <title><%= title %> — <%= siteName %></title>
+    
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/pages.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <main class="main">
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs">
+            <div class="container">
+                <ul class="breadcrumbs-list">
+                    <li class="breadcrumbs-item"><a href="/">Главная</a></li>
+                    <li class="breadcrumbs-item active">О компании</li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="about-hero">
+            <div class="container">
+                <div class="about-hero-content">
+                    <span class="about-label">С 1942 года</span>
+                    <h1 class="about-hero-title">Легендарные часы<br>с богатой историей</h1>
+                    <p class="about-hero-text">Чистопольский часовой завод «Восток» — единственный в России производитель механических часов полного цикла. Более 80 лет мы создаём часы, которые стали символом надёжности и качества.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- История -->
+        <section class="about-history section">
+            <div class="container">
+                <h2 class="section-title">Наша история</h2>
+                <div class="history-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">1942</div>
+                        <div class="timeline-content">
+                            <h3>Основание завода</h3>
+                            <p>В годы Великой Отечественной войны в Чистополь был эвакуирован Второй Московский часовой завод. Здесь началась история легендарного производства.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1965</div>
+                        <div class="timeline-content">
+                            <h3>Рождение Командирских</h3>
+                            <p>По заказу Министерства обороны СССР были созданы первые часы «Командирские» — специально для офицеров Советской Армии.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1967</div>
+                        <div class="timeline-content">
+                            <h3>Создание Амфибии</h3>
+                            <p>Разработаны водолазные часы «Амфибия» с уникальной системой герметизации, выдерживающие давление на глубине до 200 метров.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2026</div>
+                        <div class="timeline-content">
+                            <h3>Современность</h3>
+                            <p>Сегодня часы «Восток» экспортируются в более чем 50 стран мира. Мы продолжаем традиции качества, сохраняя доступные цены.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Преимущества -->
+        <section class="about-features section section-light">
+            <div class="container">
+                <h2 class="section-title">Почему выбирают нас</h2>
+                <div class="about-features-grid">
+                    <div class="about-feature">
+                        <div class="about-feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <h3>Гарантия качества</h3>
+                        <p>2 года официальной гарантии на все часы. Собственный сервисный центр в России.</p>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <h3>Механика высокого класса</h3>
+                        <p>Калибры собственного производства с автоподзаводом. Точность хода ±20 сек/сутки.</p>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                        </div>
+                        <h3>Сертификация</h3>
+                        <p>Все часы сертифицированы и соответствуют российским и международным стандартам качества.</p>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="3" width="15" height="13"></rect>
+                                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                            </svg>
+                        </div>
+                        <h3>Быстрая доставка</h3>
+                        <p>Доставка по всей России от 1 дня. Бесплатная доставка при заказе от 10 000 ₽.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Цифры -->
+        <section class="about-stats section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">80+</div>
+                        <div class="stat-label">лет истории</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">стран экспорта</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1M+</div>
+                        <div class="stat-label">часов в год</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">200м</div>
+                        <div class="stat-label">водозащита</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="about-cta section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Выберите свои Командирские</h2>
+                    <p>Присоединяйтесь к миллионам владельцев легендарных российских часов</p>
+                    <a href="/catalog" class="btn btn-secondary btn-lg">Перейти в каталог</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

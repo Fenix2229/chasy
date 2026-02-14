@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | Командирские</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+        .admin-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h1 { font-size: 24px; }
+        .admin-header h1 span { color: #c9a227; }
+        .admin-nav { display: flex; gap: 20px; align-items: center; }
+        .admin-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        .admin-nav a:hover, .admin-nav a.active { background: rgba(201, 162, 39, 0.3); }
+        .admin-nav a.logout { background: #c0392b; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px; }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+        .back-link:hover { color: #c9a227; }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .order-header h1 { font-size: 28px; color: #333; }
+        .order-date { color: #888; font-size: 14px; margin-top: 5px; }
+        .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            color: #333;
+        }
+        .card-body { padding: 20px; }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #888; }
+        .info-value { font-weight: 500; }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge-new { background: #e3f2fd; color: #1976d2; }
+        .badge-confirmed { background: #e8f5e9; color: #388e3c; }
+        .badge-processing { background: #fff3e0; color: #f57c00; }
+        .badge-shipped { background: #f3e5f5; color: #7b1fa2; }
+        .badge-delivered { background: #c8e6c9; color: #2e7d32; }
+        .badge-cancelled { background: #ffebee; color: #c62828; }
+        .badge-pending { background: #fff3e0; color: #f57c00; }
+        .badge-paid { background: #e8f5e9; color: #388e3c; }
+        .badge-refunded { background: #ffebee; color: #c62828; }
+        .item-list { list-style: none; }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .item:last-child { border-bottom: none; }
+        .item-info { flex: 1; }
+        .item-name { font-weight: 500; margin-bottom: 3px; }
+        .item-article { font-size: 12px; color: #888; }
+        .item-qty { color: #888; margin: 0 20px; }
+        .item-price { font-weight: 600; white-space: nowrap; }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-top: 2px solid #eee;
+            margin-top: 10px;
+        }
+        .status-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #c9a227;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+        .btn:hover { background: #a88b1e; }
+        .btn-success { background: #27ae60; }
+        .btn-danger { background: #e74c3c; }
+        .notes-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 10px;
+        }
+        .success-msg {
+            background: #e8f5e9;
+            color: #388e3c;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+        .success-msg.show { display: block; }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <h1>⚙️ <span>Админ-панель</span></h1>
+        <nav class="admin-nav">
+            <a href="/admin">Главная</a>
+            <a href="/admin/products">Товары</a>
+            <a href="/admin/orders" class="active">Заказы</a>
+            <a href="/" target="_blank">Сайт ↗</a>
+            <a href="/admin/logout" class="logout">Выйти</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <a href="/admin/orders" class="back-link">← Назад к заказам</a>
+        
+        <div class="order-header">
+            <div>
+                <h1>Заказ <%= order.order_number %></h1>
+                <div class="order-date">
+                    Создан: <%= new Date(order.created_at).toLocaleString('ru-RU') %>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid">
+            <div class="left-column">
+                <div class="card">
+                    <div class="card-header">📦 Товары в заказе</div>
+                    <div class="card-body">
+                        <ul class="item-list">
+                            <% order.items.forEach(item => { %>
+                                <li class="item">
+                                    <div class="item-info">
+                                        <div class="item-name"><%= item.name %></div>
+                                        <div class="item-article">Арт. <%= item.article %></div>
+                                    </div>
+                                    <div class="item-qty">× <%= item.quantity %></div>
+                                    <div class="item-price"><%= item.subtotal.toLocaleString('ru-RU') %> ₽</div>
+                                </li>
+                            <% }); %>
+                        </ul>
+                        <div class="total-row">
+                            <span>Итого:</span>
+                            <span><%= order.total.toLocaleString('ru-RU') %> ₽</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">👤 Данные клиента</div>
+                    <div class="card-body">
+                        <div class="info-row">
+                            <span class="info-label">ФИО</span>
+                            <span class="info-value"><%= order.customer_name %></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Телефон</span>
+                            <span class="info-value"><%= order.customer_phone %></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email</span>
+                            <span class="info-value"><%= order.customer_email %></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Адрес доставки</span>
+                            <span class="info-value"><%= order.customer_address %></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="card">
+                    <div class="card-header">📊 Статус заказа</div>
+                    <div class="card-body">
+                        <label style="display: block; margin-bottom: 8px; color: #666; font-size: 14px;">
+                            Статус выполнения
+                        </label>
+                        <select class="status-select" id="orderStatus" onchange="updateStatus()">
+                            <option value="new" <%= order.status === 'new' ? 'selected' : '' %>>Новый</option>
+                            <option value="confirmed" <%= order.status === 'confirmed' ? 'selected' : '' %>>Подтверждён</option>
+                            <option value="processing" <%= order.status === 'processing' ? 'selected' : '' %>>В обработке</option>
+                            <option value="shipped" <%= order.status === 'shipped' ? 'selected' : '' %>>Отправлен</option>
+                            <option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' %>>Доставлен</option>
+                            <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>Отменён</option>
+                        </select>
+                        
+                        <label style="display: block; margin-bottom: 8px; color: #666; font-size: 14px;">
+                            Статус оплаты
+                        </label>
+                        <select class="status-select" id="paymentStatus" onchange="updatePayment()">
+                            <option value="pending" <%= order.payment_status === 'pending' ? 'selected' : '' %>>Ожидает оплаты</option>
+                            <option value="paid" <%= order.payment_status === 'paid' ? 'selected' : '' %>>Оплачено</option>
+                            <option value="refunded" <%= order.payment_status === 'refunded' ? 'selected' : '' %>>Возврат</option>
+                        </select>
+                        
+                        <div class="success-msg" id="statusMsg">✓ Сохранено</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">📝 Заметки</div>
+                    <div class="card-body">
+                        <textarea class="notes-textarea" id="orderNotes" 
+                                  placeholder="Введите заметки к заказу..."><%= order.notes || '' %></textarea>
+                        <button class="btn" onclick="saveNotes()">Сохранить заметки</button>
+                        <div class="success-msg" id="notesMsg">✓ Заметки сохранены</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const orderId = <%= order.id %>;
+        
+        function updateStatus() {
+            const status = document.getElementById('orderStatus').value;
+            fetch(`/admin/api/orders/${orderId}/status`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showMsg('statusMsg');
+                }
+            });
+        }
+        
+        function updatePayment() {
+            const payment_status = document.getElementById('paymentStatus').value;
+            fetch(`/admin/api/orders/${orderId}/payment`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ payment_status })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showMsg('statusMsg');
+                }
+            });
+        }
+        
+        function saveNotes() {
+            const notes = document.getElementById('orderNotes').value;
+            fetch(`/admin/api/orders/${orderId}/notes`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ notes })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showMsg('notesMsg');
+                }
+            });
+        }
+        
+        function showMsg(id) {
+            const msg = document.getElementById(id);
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

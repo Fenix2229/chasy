@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#f0f0f0"/>
+  <g fill="none" stroke="#ccc" stroke-width="2">
+    <circle cx="200" cy="180" r="80"/>
+    <circle cx="200" cy="180" r="60"/>
+    <line x1="200" y1="180" x2="200" y2="120" stroke-width="3" stroke-linecap="round"/>
+    <line x1="200" y1="180" x2="240" y2="180" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="200" cy="180" r="5" fill="#ccc"/>
+  </g>
+  <text x="200" y="300" text-anchor="middle" fill="#999" font-family="Arial, sans-serif" font-size="16">Фото отсутствует</text>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280">
+  <defs>
+    <linearGradient id="gold3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f7dc6f"/>
+      <stop offset="50%" style="stop-color:#d4ac0d"/>
+      <stop offset="100%" style="stop-color:#b7950b"/>
+    </linearGradient>
+    <linearGradient id="cream" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef9e7"/>
+      <stop offset="100%" style="stop-color:#f5ecd7"/>
+    </linearGradient>
+  </defs>
+  <!-- Ремешок верх кожаный -->
+  <rect x="75" y="0" width="50" height="55" rx="3" fill="#8b4513"/>
+  <rect x="80" y="5" width="40" height="45" fill="#a0522d"/>
+  <line x1="80" y1="15" x2="120" y2="15" stroke="#5d2906" stroke-width="1"/>
+  <line x1="80" y1="25" x2="120" y2="25" stroke="#5d2906" stroke-width="1"/>
+  <line x1="80" y1="35" x2="120" y2="35" stroke="#5d2906" stroke-width="1"/>
+  <!-- Корпус круглый золотой -->
+  <circle cx="100" cy="140" r="58" fill="url(#gold3)" stroke="#b8860b" stroke-width="2"/>
+  <circle cx="100" cy="140" r="52" fill="url(#cream)"/>
+  <!-- Римские цифры -->
+  <g fill="#333" font-family="Times New Roman" font-size="11" font-weight="bold" text-anchor="middle">
+    <text x="100" y="100">XII</text>
+    <text x="140" y="145">III</text>
+    <text x="100" y="190">VI</text>
+    <text x="60" y="145">IX</text>
+  </g>
+  <!-- Тонкие деления -->
+  <g stroke="#b8860b" stroke-width="1">
+    <line x1="100" y1="92" x2="100" y2="97"/>
+    <line x1="100" y1="183" x2="100" y2="188"/>
+    <line x1="147" y1="140" x2="142" y2="140"/>
+    <line x1="58" y1="140" x2="53" y2="140"/>
+  </g>
+  <!-- Элегантные стрелки -->
+  <polygon points="100,95 98,140 100,145 102,140" fill="#333"/>
+  <polygon points="130,140 100,138 100,142" fill="#333"/>
+  <line x1="100" y1="140" x2="112" y2="158" stroke="#b8860b" stroke-width="1"/>
+  <circle cx="100" cy="140" r="3" fill="#b8860b"/>
+  <!-- Текст -->
+  <text x="100" y="125" fill="#b8860b" font-family="Times New Roman" font-size="7" font-style="italic" text-anchor="middle">Восток</text>
+  <text x="100" y="160" fill="#666" font-family="Arial" font-size="5" text-anchor="middle">РЕТРО</text>
+  <!-- Заводная головка -->
+  <ellipse cx="158" cy="140" rx="8" ry="6" fill="url(#gold3)" stroke="#b8860b"/>
+  <!-- Ремешок низ -->
+  <rect x="75" y="225" width="50" height="55" rx="3" fill="#8b4513"/>
+  <rect x="80" y="230" width="40" height="45" fill="#a0522d"/>
+  <line x1="80" y1="240" x2="120" y2="240" stroke="#5d2906" stroke-width="1"/>
+  <line x1="80" y1="250" x2="120" y2="250" stroke="#5d2906" stroke-width="1"/>
+  <line x1="80" y1="260" x2="120" y2="260" stroke="#5d2906" stroke-width="1"/>
+</svg>

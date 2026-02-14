@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280">
+  <defs>
+    <linearGradient id="silver8" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0f0f0"/>
+      <stop offset="50%" style="stop-color:#d0d0d0"/>
+      <stop offset="100%" style="stop-color:#a8a8a8"/>
+    </linearGradient>
+    <linearGradient id="white8" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#e8e8e8"/>
+    </linearGradient>
+  </defs>
+  <!-- Кожаный ремешок верх (чёрный) -->
+  <rect x="72" y="0" width="56" height="55" rx="8" fill="#1a1a1a"/>
+  <rect x="78" y="5" width="44" height="45" rx="5" fill="#252525"/>
+  <line x1="82" y1="20" x2="118" y2="20" stroke="#333" stroke-width="1"/>
+  <line x1="82" y1="30" x2="118" y2="30" stroke="#333" stroke-width="1"/>
+  <line x1="82" y1="40" x2="118" y2="40" stroke="#333" stroke-width="1"/>
+  <!-- Корпус -->
+  <circle cx="100" cy="140" r="62" fill="url(#silver8)" stroke="#aaa" stroke-width="3"/>
+  <circle cx="100" cy="140" r="56" fill="url(#white8)" stroke="#ccc"/>
+  <!-- Гильоше -->
+  <g stroke="#ddd" stroke-width="0.3" fill="none">
+    <circle cx="100" cy="140" r="50"/>
+    <circle cx="100" cy="140" r="45"/>
+    <circle cx="100" cy="140" r="40"/>
+    <circle cx="100" cy="140" r="35"/>
+    <circle cx="100" cy="140" r="30"/>
+  </g>
+  <!-- Цифры -->
+  <g fill="#333" font-family="Georgia" font-size="11" text-anchor="middle">
+    <text x="100" y="100">12</text>
+    <text x="121" y="107">1</text>
+    <text x="138" y="122">2</text>
+    <text x="148" y="144">3</text>
+    <text x="138" y="166">4</text>
+    <text x="121" y="181">5</text>
+    <text x="100" y="188">6</text>
+    <text x="79" y="181">7</text>
+    <text x="62" y="166">8</text>
+    <text x="52" y="144">9</text>
+    <text x="62" y="122">10</text>
+    <text x="79" y="107">11</text>
+  </g>
+  <!-- Малый секундный циферблат -->
+  <circle cx="100" cy="165" r="15" fill="none" stroke="#aaa" stroke-width="1"/>
+  <circle cx="100" cy="165" r="2" fill="#333"/>
+  <line x1="100" y1="165" x2="100" y2="153" stroke="#666" stroke-width="0.8"/>
+  <!-- Стрелки (синие) -->
+  <polygon points="100,100 97,135 100,142 103,135" fill="#1a3a6b"/>
+  <polygon points="100,140 97,140 55,138 55,142 97,142" fill="#1a3a6b"/>
+  <circle cx="100" cy="140" r="4" fill="#1a3a6b"/>
+  <!-- Логотип -->
+  <text x="100" y="120" fill="#1a3a6b" font-family="Arial" font-size="6" text-anchor="middle">ВОСТОК</text>
+  <text x="100" y="128" fill="#666" font-family="Arial" font-size="4" text-anchor="middle">AUTOMATIC</text>
+  <!-- Заводная головка -->
+  <rect x="158" y="132" width="12" height="16" rx="3" fill="url(#silver8)" stroke="#aaa"/>
+  <!-- Ремешок низ -->
+  <rect x="72" y="225" width="56" height="55" rx="8" fill="#1a1a1a"/>
+  <rect x="78" y="230" width="44" height="45" rx="5" fill="#252525"/>
+</svg>

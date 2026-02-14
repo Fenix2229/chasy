@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280">
+  <defs>
+    <linearGradient id="rosegold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5d0c5"/>
+      <stop offset="50%" style="stop-color:#e8b4a0"/>
+      <stop offset="100%" style="stop-color:#d4967e"/>
+    </linearGradient>
+    <linearGradient id="pearl" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fdf6f0"/>
+      <stop offset="100%" style="stop-color:#f8ece3"/>
+    </linearGradient>
+  </defs>
+  <!-- Ремешок верх тонкий -->
+  <rect x="82" y="0" width="36" height="60" rx="2" fill="url(#rosegold)"/>
+  <rect x="86" y="5" width="28" height="50" fill="#f5deb3"/>
+  <!-- Корпус маленький элегантный -->
+  <circle cx="100" cy="140" r="45" fill="url(#rosegold)" stroke="#d4967e" stroke-width="1"/>
+  <!-- Декоративные камни -->
+  <g fill="#fff" stroke="#d4967e" stroke-width="0.5">
+    <circle cx="100" cy="98" r="2"/>
+    <circle cx="142" cy="140" r="2"/>
+    <circle cx="100" cy="182" r="2"/>
+    <circle cx="58" cy="140" r="2"/>
+    <circle cx="118" cy="103" r="1.5"/>
+    <circle cx="137" cy="122" r="1.5"/>
+    <circle cx="137" cy="158" r="1.5"/>
+    <circle cx="118" cy="177" r="1.5"/>
+    <circle cx="82" cy="177" r="1.5"/>
+    <circle cx="63" cy="158" r="1.5"/>
+    <circle cx="63" cy="122" r="1.5"/>
+    <circle cx="82" cy="103" r="1.5"/>
+  </g>
+  <circle cx="100" cy="140" r="38" fill="url(#pearl)"/>
+  <!-- Тонкие элегантные метки -->
+  <g stroke="#d4967e" stroke-width="0.5">
+    <line x1="100" y1="105" x2="100" y2="110"/>
+    <line x1="100" y1="170" x2="100" y2="175"/>
+    <line x1="130" y1="140" x2="135" y2="140"/>
+    <line x1="65" y1="140" x2="70" y2="140"/>
+  </g>
+  <!-- Изящные стрелки -->
+  <line x1="100" y1="140" x2="100" y2="115" stroke="#d4967e" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="100" y1="140" x2="122" y2="140" stroke="#d4967e" stroke-width="1" stroke-linecap="round"/>
+  <circle cx="100" cy="140" r="2" fill="#d4967e"/>
+  <!-- Логотип -->
+  <text x="100" y="130" fill="#d4967e" font-family="Georgia" font-size="6" font-style="italic" text-anchor="middle">Восток</text>
+  <text x="100" y="155" fill="#c9a090" font-family="Arial" font-size="4" text-anchor="middle">ELEGANCE</text>
+  <!-- Маленькая заводная головка -->
+  <circle cx="145" cy="140" r="4" fill="url(#rosegold)" stroke="#d4967e"/>
+  <!-- Ремешок низ -->
+  <rect x="82" y="220" width="36" height="60" rx="2" fill="url(#rosegold)"/>
+  <rect x="86" y="225" width="28" height="50" fill="#f5deb3"/>
+</svg>

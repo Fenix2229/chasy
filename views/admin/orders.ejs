@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | Командирские</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+        .admin-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h1 { font-size: 24px; }
+        .admin-header h1 span { color: #c9a227; }
+        .admin-nav { display: flex; gap: 20px; align-items: center; }
+        .admin-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        .admin-nav a:hover, .admin-nav a.active { background: rgba(201, 162, 39, 0.3); }
+        .admin-nav a.logout { background: #c0392b; }
+        .admin-nav a.logout:hover { background: #e74c3c; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px; }
+        .section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        .section-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+        }
+        .section-header h2 { font-size: 18px; color: #333; }
+        .filter-row {
+            padding: 15px 25px;
+            background: #f9f9f9;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .filter-row select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            min-width: 150px;
+        }
+        .section-content { padding: 0; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th, .table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .table th {
+            font-weight: 600;
+            color: #666;
+            font-size: 13px;
+            text-transform: uppercase;
+            background: #f9f9f9;
+        }
+        .table tr:hover { background: #f9f9f9; }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge-new { background: #e3f2fd; color: #1976d2; }
+        .badge-confirmed { background: #e8f5e9; color: #388e3c; }
+        .badge-processing { background: #fff3e0; color: #f57c00; }
+        .badge-shipped { background: #f3e5f5; color: #7b1fa2; }
+        .badge-delivered { background: #c8e6c9; color: #2e7d32; }
+        .badge-cancelled { background: #ffebee; color: #c62828; }
+        .badge-pending { background: #fff3e0; color: #f57c00; }
+        .badge-paid { background: #e8f5e9; color: #388e3c; }
+        .badge-refunded { background: #ffebee; color: #c62828; }
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #c9a227;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover { background: #a88b1e; }
+        .btn-sm { padding: 6px 12px; font-size: 12px; }
+        .order-link {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .order-link:hover { text-decoration: underline; }
+        .customer-info { font-size: 13px; }
+        .customer-info .email { color: #888; }
+        .empty-message {
+            text-align: center;
+            padding: 60px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <h1>⚙️ <span>Админ-панель</span></h1>
+        <nav class="admin-nav">
+            <a href="/admin">Главная</a>
+            <a href="/admin/products">Товары</a>
+            <a href="/admin/orders" class="active">Заказы</a>
+            <a href="/" target="_blank">Сайт ↗</a>
+            <a href="/admin/logout" class="logout">Выйти</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <h2>📋 Заказы (<%= orders.length %>)</h2>
+            </div>
+            
+            <div class="filter-row">
+                <select id="statusFilter">
+                    <option value="">Все статусы</option>
+                    <option value="new">Новые</option>
+                    <option value="confirmed">Подтверждённые</option>
+                    <option value="processing">В обработке</option>
+                    <option value="shipped">Отправленные</option>
+                    <option value="delivered">Доставленные</option>
+                    <option value="cancelled">Отменённые</option>
+                </select>
+                <select id="paymentFilter">
+                    <option value="">Все оплаты</option>
+                    <option value="pending">Ожидает оплаты</option>
+                    <option value="paid">Оплачено</option>
+                    <option value="refunded">Возврат</option>
+                </select>
+            </div>
+            
+            <div class="section-content">
+                <% if (orders.length > 0) { %>
+                    <table class="table" id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th>№ Заказа</th>
+                                <th>Клиент</th>
+                                <th>Товары</th>
+                                <th>Сумма</th>
+                                <th>Статус</th>
+                                <th>Оплата</th>
+                                <th>Дата</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% orders.forEach(order => { %>
+                                <tr data-status="<%= order.status %>" data-payment="<%= order.payment_status %>">
+                                    <td>
+                                        <a href="/admin/orders/<%= order.id %>" class="order-link">
+                                            <%= order.order_number %>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div><%= order.customer_name %></div>
+                                            <div class="email"><%= order.customer_phone %></div>
+                                        </div>
+                                    </td>
+                                    <td><%= order.items.length %> шт.</td>
+                                    <td><strong><%= order.total.toLocaleString('ru-RU') %> ₽</strong></td>
+                                    <td>
+                                        <% 
+                                            const statusLabels = {
+                                                'new': 'Новый',
+                                                'confirmed': 'Подтверждён',
+                                                'processing': 'В обработке',
+                                                'shipped': 'Отправлен',
+                                                'delivered': 'Доставлен',
+                                                'cancelled': 'Отменён'
+                                            };
+                                        %>
+                                        <span class="badge badge-<%= order.status %>">
+                                            <%= statusLabels[order.status] || order.status %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <% 
+                                            const paymentLabels = {
+                                                'pending': 'Ожидает',
+                                                'paid': 'Оплачено',
+                                                'refunded': 'Возврат'
+                                            };
+                                        %>
+                                        <span class="badge badge-<%= order.payment_status %>">
+                                            <%= paymentLabels[order.payment_status] || order.payment_status %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <%= new Date(order.created_at).toLocaleDateString('ru-RU') %>
+                                        <br>
+                                        <small><%= new Date(order.created_at).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) %></small>
+                                    </td>
+                                    <td>
+                                        <a href="/admin/orders/<%= order.id %>" class="btn btn-sm">Открыть</a>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <div class="empty-message">
+                        <p>📭 Заказов пока нет</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('statusFilter').addEventListener('change', filterOrders);
+        document.getElementById('paymentFilter').addEventListener('change', filterOrders);
+        
+        function filterOrders() {
+            const status = document.getElementById('statusFilter').value;
+            const payment = document.getElementById('paymentFilter').value;
+            const rows = document.querySelectorAll('#ordersTable tbody tr');
+            
+            rows.forEach(row => {
+                const matchesStatus = !status || row.dataset.status === status;
+                const matchesPayment = !payment || row.dataset.payment === payment;
+                row.style.display = matchesStatus && matchesPayment ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

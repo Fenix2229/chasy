@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<%= product.description ? product.description.substring(0, 160) : product.name + ' - купить в интернет-магазине ' + siteName %>">
+    <title><%= product.name %> | <%= siteName %></title>
+    <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/pages.css">
+</head>
+<body>
+    <%- include('partials/header', { categories, cartCount: typeof cartCount !== 'undefined' ? cartCount : 0 }) %>
+
+    <main>
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs">
+            <div class="container">
+                <ul class="breadcrumbs-list">
+                    <li class="breadcrumbs-item"><a href="/">Главная</a></li>
+                    <li class="breadcrumbs-item"><a href="/catalog">Каталог</a></li>
+                    <% if (product.category_name) { %>
+                        <li class="breadcrumbs-item"><a href="/catalog/category/<%= product.category_slug %>"><%= product.category_name %></a></li>
+                    <% } %>
+                    <li class="breadcrumbs-item active"><%= product.name %></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Product Page -->
+        <section class="product-page section">
+            <div class="container">
+                <div class="product-detail">
+                    <!-- Product Gallery -->
+                    <div class="product-gallery">
+                        <div class="main-image">
+                            <img src="<%= product.image || '/images/no-image.svg' %>" alt="<%= product.name %>" id="main-product-image" onerror="this.src='/images/no-image.svg'">
+                            <% if (product.old_price) { %>
+                                <span class="product-badge badge-sale">-<%= Math.round((1 - product.price/product.old_price) * 100) %>%</span>
+                            <% } %>
+                        </div>
+                        <% if (product.images && product.images.length > 1) { %>
+                            <div class="thumbnails">
+                                <% product.images.forEach(function(img, index) { %>
+                                    <button class="thumbnail <%= index === 0 ? 'active' : '' %>" onclick="changeMainImage('<%= img %>', this)">
+                                        <img src="<%= img %>" alt="<%= product.name %> - фото <%= index + 1 %>">
+                                    </button>
+                                <% }); %>
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <!-- Product Info -->
+                    <div class="product-details">
+                        <div class="product-header">
+                            <div class="product-category-label"><%= product.category_name || 'Часы' %></div>
+                            <h1 class="product-name"><%= product.name %></h1>
+                            <div class="product-sku">
+                                Артикул: <strong><%= product.sku || 'N/A' %></strong>
+                            </div>
+                        </div>
+
+                        <div class="product-pricing">
+                            <div class="product-price-large">
+                                <span class="price-current"><%= product.price.toLocaleString('ru-RU') %> ₽</span>
+                                <% if (product.old_price) { %>
+                                    <span class="price-old"><%= product.old_price.toLocaleString('ru-RU') %> ₽</span>
+                                    <span class="price-savings">Экономия: <%= (product.old_price - product.price).toLocaleString('ru-RU') %> ₽</span>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div class="product-availability <%= product.stock > 0 ? 'in-stock' : 'out-of-stock' %>">
+                            <span class="stock-indicator"></span>
+                            <% if (product.stock > 0) { %>
+                                <span>В наличии: <strong><%= product.stock %> шт.</strong></span>
+                            <% } else { %>
+                                <span>Нет в наличии</span>
+                            <% } %>
+                        </div>
+
+                        <% if (product.stock > 0) { %>
+                            <div class="product-quantity-block">
+                                <label>Количество:</label>
+                                <div class="quantity-selector">
+                                    <button class="qty-btn qty-minus" onclick="changeQuantity(-1)">−</button>
+                                    <input type="number" id="product-quantity" value="1" min="1" max="<%= product.stock %>" readonly>
+                                    <button class="qty-btn qty-plus" onclick="changeQuantity(1)">+</button>
+                                </div>
+                            </div>
+
+                            <div class="product-actions-large">
+                                <button class="btn btn-primary btn-lg btn-buy-large" onclick="addToCartWithQty(<%= product.id %>)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="9" cy="21" r="1"></circle>
+                                        <circle cx="20" cy="21" r="1"></circle>
+                                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                    </svg>
+                                    В корзину
+                                </button>
+                                <a href="/cart" class="btn btn-secondary btn-lg">
+                                    Оформить сразу
+                                </a>
+                            </div>
+                        <% } else { %>
+                            <div class="product-actions-large">
+                                <button class="btn btn-disabled btn-lg" disabled>
+                                    Нет в наличии
+                                </button>
+                            </div>
+                        <% } %>
+
+                        <!-- Short description -->
+                        <% if (product.short_description) { %>
+                            <div class="product-short-desc">
+                                <p><%= product.short_description %></p>
+                            </div>
+                        <% } %>
+
+                        <!-- Features icons -->
+                        <div class="product-features-icons">
+                            <div class="feature-icon-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="1" y="3" width="15" height="13"></rect>
+                                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                                </svg>
+                                <span>Доставка по России</span>
+                            </div>
+                            <div class="feature-icon-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
+                                <span>Гарантия 2 года</span>
+                            </div>
+                            <div class="feature-icon-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                <span>Консультация</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="product-tabs">
+                    <div class="tabs-nav">
+                        <button class="tab-btn active" data-tab="description">Описание</button>
+                        <button class="tab-btn" data-tab="specs">Характеристики</button>
+                        <button class="tab-btn" data-tab="delivery">Доставка и оплата</button>
+                    </div>
+
+                    <div class="tabs-content">
+                        <!-- Description Tab -->
+                        <div class="tab-pane active" id="tab-description">
+                            <% if (product.description) { %>
+                                <div class="product-description">
+                                    <%- product.description %>
+                                </div>
+                            <% } else { %>
+                                <p class="text-muted">Описание отсутствует</p>
+                            <% } %>
+                        </div>
+
+                        <!-- Specifications Tab -->
+                        <div class="tab-pane" id="tab-specs">
+                            <% if (product.specifications && Object.keys(product.specifications).length > 0) { %>
+                                <table class="specs-table">
+                                    <tbody>
+                                        <% Object.entries(product.specifications).forEach(function([key, value]) { %>
+                                            <tr>
+                                                <td class="spec-name"><%= key %></td>
+                                                <td class="spec-value"><%= value %></td>
+                                            </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            <% } else { %>
+                                <p class="text-muted">Характеристики не указаны</p>
+                            <% } %>
+                        </div>
+
+                        <!-- Delivery Tab -->
+                        <div class="tab-pane" id="tab-delivery">
+                            <div class="delivery-info">
+                                <h4>Доставка</h4>
+                                <ul>
+                                    <li><strong>Почта России:</strong> от 290 ₽, 5-14 дней</li>
+                                    <li><strong>СДЭК:</strong> от 350 ₽, 2-7 дней</li>
+                                    <li><strong>Курьерская доставка:</strong> от 450 ₽, 1-3 дня</li>
+                                    <li><strong>Бесплатная доставка</strong> при заказе от 10 000 ₽</li>
+                                </ul>
+                                
+                                <h4>Оплата</h4>
+                                <ul>
+                                    <li>Банковская карта онлайн</li>
+                                    <li>СБП (Система быстрых платежей)</li>
+                                    <li>Наложенный платёж</li>
+                                    <li>При получении (наличные/карта)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Products -->
+                <% if (relatedProducts && relatedProducts.length > 0) { %>
+                    <section class="related-products">
+                        <h2 class="section-title">Похожие товары</h2>
+                        <div class="products-grid">
+                            <% relatedProducts.forEach(function(relProduct) { %>
+                                <div class="product-card" data-product-id="<%= relProduct.id %>">
+                                    <a href="/catalog/product/<%= relProduct.slug %>" class="product-image">
+                                        <img src="<%= relProduct.image || '/images/no-image.svg' %>" alt="<%= relProduct.name %>" onerror="this.src='/images/no-image.svg'">
+                                        <% if (relProduct.old_price) { %>
+                                            <span class="product-badge badge-sale">-<%= Math.round((1 - relProduct.price/relProduct.old_price) * 100) %>%</span>
+                                        <% } %>
+                                        <div class="product-overlay">
+                                            <a href="/catalog/product/<%= relProduct.slug %>" class="overlay-btn btn-view">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                                Просмотреть
+                                            </a>
+                                            <button class="overlay-btn btn-buy" onclick="event.preventDefault(); addToCart(<%= relProduct.id %>)" <%= relProduct.stock <= 0 ? 'disabled' : '' %>>
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <circle cx="9" cy="21" r="1"></circle>
+                                                    <circle cx="20" cy="21" r="1"></circle>
+                                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                                </svg>
+                                                Купить
+                                            </button>
+                                        </div>
+                                    </a>
+                                    <div class="product-info">
+                                        <div class="product-category"><%= relProduct.category_name || 'Часы' %></div>
+                                        <h3 class="product-title">
+                                            <a href="/catalog/product/<%= relProduct.slug %>"><%= relProduct.name %></a>
+                                        </h3>
+                                        <div class="product-price">
+                                            <span class="price-current"><%= relProduct.price.toLocaleString('ru-RU') %> ₽</span>
+                                            <% if (relProduct.old_price) { %>
+                                                <span class="price-old"><%= relProduct.old_price.toLocaleString('ru-RU') %> ₽</span>
+                                            <% } %>
+                                        </div>
+                                        <div class="product-stock <%= relProduct.stock > 0 ? 'in-stock' : 'out-of-stock' %>">
+                                            <span class="stock-indicator"></span>
+                                            <%= relProduct.stock > 0 ? 'В наличии' : 'Нет в наличии' %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </section>
+                <% } %>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/main.js"></script>
+    <script>
+        // Quantity selector
+        function changeQuantity(delta) {
+            const input = document.getElementById('product-quantity');
+            const max = parseInt(input.max);
+            let value = parseInt(input.value) + delta;
+            
+            if (value < 1) value = 1;
+            if (value > max) value = max;
+            
+            input.value = value;
+        }
+        
+        // Add to cart with quantity
+        function addToCartWithQty(productId) {
+            const quantity = parseInt(document.getElementById('product-quantity').value) || 1;
+            addToCart(productId, quantity);
+        }
+        
+        // Image gallery
+        function changeMainImage(src, thumbnail) {
+            document.getElementById('main-product-image').src = src;
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumbnail.classList.add('active');
+        }
+        
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+                
+                // Update buttons
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update panes
+                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+                document.getElementById('tab-' + tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
