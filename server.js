@@ -88,6 +88,13 @@ function startServer() {
     try {
         // Проверяем, есть ли товары в БД
         db.read();
+        
+        // Если db.data не существует, инициализируем с пустыми данными
+        if (!db.data) {
+            db.data = { categories: [], products: [], orders: [], syncLog: [] };
+            db.write();
+        }
+        
         const productCount = (db.data?.products || []).length;
         
         if (productCount === 0) {
