@@ -9,6 +9,8 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import Low from 'lowdb';
+import FileSync from 'lowdb/adapters/FileSync.js';
 import { db, initDatabase } from './config/database.js';
 import { initDb } from './scripts/init-db.js';
 import indexRoutes from './routes/index.js';
@@ -84,7 +86,7 @@ app.use((err, req, res, next) => {
 });
 
 // Запуск сервера с инициализацией БД
-function startServer() {
+async function startServer() {
     try {
         // Проверяем, есть ли товары в БД
         db.read();
@@ -95,13 +97,21 @@ function startServer() {
             db.write();
         }
         
-        const productCount = (db.data?.products || []).length;
+        let productCount = (db.data?.products || []).length;
         
         if (productCount === 0) {
             console.log('⚠️  БД пуста, инициализируем товары...');
+            
+            // Запускаем инициализацию
             initDb(db);
-            // Перечитываем БД из файла после инициализации
-            db.read();
+            
+            // КЛЮЧЕВОЙ МОМЕНТ: После initDb перечитываем данные из файла
+            const fs = (await import('fs')).default;
+            const jsonStr = fs.readFileSync(path.join(__dirname, 'database', 'shop.json'), 'utf8');
+            db.data = JSON.parse(jsonStr);
+            
+            productCount = (db.data?.products || []).length;
+            console.log(`✅ БД инициализирована (${productCount} товаров)`);
         } else {
             console.log(`✅ БД инициализирована (${productCount} товаров)`);
         }
