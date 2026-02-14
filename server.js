@@ -24,8 +24,8 @@ const __dirname = path.dirname(__filename);
 
 // Инициализация приложения
 const app = express();
-const PORT = process.env.PORT || 3000;  
-const HOST = process.env.HOST || 'localhost';
+const PORT = process.env.PORT || 80;  
+const HOST = process.env.HOST || '0.0.0.0';
 
 // Настройка шаблонизатора EJS
 app.set('view engine', 'ejs');
