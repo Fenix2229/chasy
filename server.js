@@ -24,7 +24,7 @@ const __dirname = path.dirname(__filename);
 
 // Инициализация приложения
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;  
 const HOST = process.env.HOST || 'localhost';
 
 // Настройка шаблонизатора EJS
@@ -101,17 +101,16 @@ async function startServer() {
         
         if (productCount === 0) {
             console.log('⚠️  БД пуста, инициализируем товары...');
-            
-            // Запускаем инициализацию
             initDb(db);
             
-            // КЛЮЧЕВОЙ МОМЕНТ: После initDb перечитываем данные из файла
+            // КЛЮЧЕВОЙ МОМЕНТ: После initDb перечитываем данные
+            // т.к. initDb перезаписал файл, но не обновила объект db текущего инстанса
             const fs = (await import('fs')).default;
             const jsonStr = fs.readFileSync(path.join(__dirname, 'database', 'shop.json'), 'utf8');
             db.data = JSON.parse(jsonStr);
             
             productCount = (db.data?.products || []).length;
-            console.log(`✅ БД инициализирована (${productCount} товаров)`);
+            console.log(`✅ БД перенициализирована (${productCount} товаров)`);
         } else {
             console.log(`✅ БД инициализирована (${productCount} товаров)`);
         }
