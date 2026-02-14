@@ -414,18 +414,20 @@ const products = [
 ];
 
 // Инициализация базы данных
-export function initDb() {
+export function initDb(dbInstance) {
     console.log('\n═══════════════════════════════════════════════════');
     console.log('  🕐 Инициализация базы данных магазина');
     console.log('  📍 Домен: komandirskie.su');
     console.log('═══════════════════════════════════════════════════\n');
 
     try {
-        const adapter = new FileSync(dbPath);
-        const db = new Low(adapter);
-        
-        // Читаем файл
-        db.read();
+        // Используем переданный экземпляр БД или создаём новый
+        let db = dbInstance;
+        if (!db) {
+            const adapter = new FileSync(dbPath);
+            db = new Low(adapter);
+            db.read();
+        }
         
         // Установим данные
         db.data = {
@@ -458,5 +460,8 @@ export function initDb() {
 
 // Запуск инициализации если скрипт вызван напрямую
 if (import.meta.url === `file://${process.argv[1]}`) {
-    initDb();
+    const adapter = new FileSync(dbPath);
+    const db = new Low(adapter);
+    db.read();
+    initDb(db);
 }
