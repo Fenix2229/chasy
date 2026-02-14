@@ -100,6 +100,8 @@ function startServer() {
         if (productCount === 0) {
             console.log('⚠️  БД пуста, инициализируем товары...');
             initDb(db);
+            // Перечитываем БД из файла после инициализации
+            db.read();
         } else {
             console.log(`✅ БД инициализирована (${productCount} товаров)`);
         }

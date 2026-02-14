@@ -421,31 +421,24 @@ export function initDb(dbInstance) {
     console.log('═══════════════════════════════════════════════════\n');
 
     try {
-        // Используем переданный экземпляр БД или создаём новый
-        let db = dbInstance;
-        if (!db) {
-            const adapter = new FileSync(dbPath);
-            db = new Low(adapter);
-            db.read();
-        }
+        console.log('📁 Добавлено категорий: ' + categories.length);
+        categories.forEach(c => console.log(`   ✅ ${c.name}`));
         
-        // Установим данные
-        db.data = {
+        console.log('\n📦 Добавлено товаров: ' + products.length);
+        products.forEach(p => console.log(`   ✅ ${p.name} (${p.article})`));
+        
+        // Подготовим данные
+        const data = {
             categories: categories,
             products: products,
             orders: [],
             syncLog: []
         };
         
-        // Записываем в файл
-        db.write();
-
-        console.log('📁 Добавлено категорий: ' + categories.length);
-        categories.forEach(c => console.log(`   ✅ ${c.name}`));
+        // Напрямую запишем JSON в файл средствами fs
+        const jsonString = JSON.stringify(data, null, 2);
+        fs.writeFileSync(dbPath, jsonString, 'utf8');
         
-        console.log('\n📦 Добавлено товаров: ' + products.length);
-        products.forEach(p => console.log(`   ✅ ${p.name} (${p.article})`));
-
         console.log('\n═══════════════════════════════════════════════════');
         console.log('  ✅ База данных успешно инициализирована!');
         console.log(`  📁 Файл: ${dbPath}`);
