@@ -98,7 +98,7 @@ const products = [
         price: 7990,
         old_price: 8990,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Автоматический, 2416Б',
@@ -124,7 +124,7 @@ const products = [
         price: 7490,
         old_price: null,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Автоматический, 2416Б',
@@ -149,7 +149,7 @@ const products = [
         price: 4990,
         old_price: null,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Механический, 2414А',
@@ -175,7 +175,7 @@ const products = [
         price: 4790,
         old_price: null,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Механический, 2414А',
@@ -201,7 +201,7 @@ const products = [
         price: 8990,
         old_price: 9990,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Автоматический, 2416Б',
@@ -227,7 +227,7 @@ const products = [
         price: 9490,
         old_price: null,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Автоматический, 2416Б',
@@ -251,7 +251,7 @@ const products = [
         price: 8490,
         old_price: null,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Автоматический, 2416Б',
@@ -276,7 +276,7 @@ const products = [
         price: 3990,
         old_price: null,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Кварцевый',
@@ -300,7 +300,7 @@ const products = [
         price: 4290,
         old_price: null,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Кварцевый',
@@ -326,7 +326,7 @@ const products = [
         price: 5990,
         old_price: null,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Механический',
@@ -350,7 +350,7 @@ const products = [
         price: 6990,
         old_price: 7990,
         stock: 3,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Механический, 2409А',
@@ -375,7 +375,7 @@ const products = [
         price: 3490,
         old_price: null,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Кварцевый',
@@ -398,7 +398,7 @@ const products = [
         price: 4290,
         old_price: null,
         stock: 5,
-        image: '',
+        image: null,
         images: [],
         specifications: {
             'Механизм': 'Кварцевый',
@@ -465,3 +465,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     db.read();
     initDb(db);
 }
+
